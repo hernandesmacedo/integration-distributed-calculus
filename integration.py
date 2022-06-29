@@ -9,19 +9,20 @@ def f(x: float):
     """
     return 5 * pow(x, 3) + 3 * pow (x, 2) + 4 * x + 20
 
-def summation(n: int, x: float, h: float):
+def summation(start: float, end: float, h: float):
     """Sums and return sum value
 
     Args:
-        n (int): discretization value
-        x (float): x value
+        start (float): x start value
+        end (float): x end value
         h (float): h value
 
     Returns:
         float: sum value
     """
     sum = 0
-    for i in range (1, n):
+    x = start
+    while (x <= end):
         sum += f(x)
         x += h
     return sum
@@ -40,8 +41,7 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
         if n < 0:
             print("Intervalo inválido")
         else:
-            h = (xn - x0)/n
-            x = x0 + h
-            sum = summation(n, x, h)
+            h = (xn - x0) / n
+            sum = summation(x0 + h, xn, h)
             r = h * (( f(x0) + f(xn) ) / 2 + sum )
             print("O resultado da integral da função f é", r)
