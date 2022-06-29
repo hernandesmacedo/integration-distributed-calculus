@@ -2,7 +2,7 @@ def f(x: float):
     """Defines the function you want to calculate the integration.
 
     Args:
-        x (float): x value
+        x (float): value of variable of integration
 
     Returns:
         float: The result of 5*x^3 + 3*x^2 + 4*x + 20
@@ -13,9 +13,9 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
     """Trapezoidal rule for integration calculus.
 
     Args:
-        x0 (float): lower limit of integration
-        xn (float): upper limit of integration
-        n (int): n value
+        x0 (float): lower bound of integration
+        xn (float): upper bound of integration
+        n (int): discretization value
     """
     if n == 0:
         print("Divisão por zero")
