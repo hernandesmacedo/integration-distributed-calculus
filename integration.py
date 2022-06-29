@@ -8,3 +8,26 @@ def f(x: float):
         float: The result of 5*x^3 + 3*x^2 + 4*x + 20
     """
     return 5 * pow(x, 3) + 3 * pow (x, 2) + 4 * x + 20
+
+def trapezoidal_rule(x0: float, xn: float, n: int):
+    """Trapezoidal rule for integration calculus.
+
+    Args:
+        x0 (float): lower limit of integration
+        xn (float): upper limit of integration
+        n (int): n value
+    """
+    if n == 0:
+        print("Divisão por zero")
+    else:
+        if n < 0:
+            print("Intervalo inválido")
+        else:
+            h = (xn - x0)/n
+            x = x0 + h
+            sum = 0
+            for i in range (1, n):
+                sum += f(x)
+                x += h
+            r = h * (( f(x0) + f(xn) ) / 2 + sum )
+            print("O resultado da integral da função f é", r)
