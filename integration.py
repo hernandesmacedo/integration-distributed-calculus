@@ -18,14 +18,14 @@ def summation(start: float, end: float, h: float):
     Args:
         start (float): x start value
         end (float): x end value
-        h (float): h value
+        h (float): height value
 
     Returns:
         float: sum value
     """
     sum = 0
     x = start
-    while (x <= end):
+    while x <= end:
         sum += f(x)
         x += h
     return sum
@@ -47,7 +47,7 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
             h = (xn - x0) / n
             sum = summation(x0 + h, xn, h)
             r = h * (( f(x0) + f(xn) ) / 2 + sum )
-            print("O resultado da integral da função f é", r)
+            print("O resultado da integral da funcao f eh", r)
 
 def butterfly_method(x0: float, xn: float, n: int):
     
