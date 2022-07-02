@@ -38,6 +38,9 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
         xn (float): upper bound of integration
         n (int): discretization value
     """
+    
+    file = open("log.log", mode='a')
+    
     if n == 0:
         print("Divisão por zero")
     else:
@@ -45,11 +48,14 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
             print("Intervalo inválido")
         else:
             h = (xn - x0) / n
+            file.write("trapezoidal_rule | start: %f, end: %f, h: %f\n" % (x0 + h, xn, h))
             sum = summation(x0 + h, xn, h)
             r = h * (( f(x0) + f(xn) ) / 2 + sum )
+            file.write("trapezoidal_rule | r: %f, h: %f, f(x0): %f, f(xn): %f, sum: %f\n" % (r, h, f(x0), f(xn), sum))
             print("O resultado da integral da funcao f eh", r)
 
 def butterfly_method(x0: float, xn: float, n: int):
+    file = open("log.log", mode='a')
     
     if n == 0:
         print("Divisão por zero")
@@ -75,6 +81,7 @@ def butterfly_method(x0: float, xn: float, n: int):
                 if rank == size - 1:
                     end = xn
 
+                file.write("butterfly_method | start: %f, end: %f, h: %f\n\n" % (start, end, h))
                 sum = summation(start, end, h)
                 
                 half = size
@@ -87,6 +94,7 @@ def butterfly_method(x0: float, xn: float, n: int):
                     print("trabalhador %d recebeu de trabalhador %d" % (rank, info.Get_source()))
                 
                 r = h * (( f(x0) + f(xn) ) / 2 + sum )
+                file.write("butterfly_method | r: %f, h: %f, f(x0): %f, f(xn): %f, sum: %f\n\n" % (r, h, f(x0), f(xn), sum))
             
                 end_time = datetime.datetime.now()
                 execution_time = (end_time - start_time).total_seconds() 
@@ -119,3 +127,6 @@ def butterfly_method(x0: float, xn: float, n: int):
                         partial_sum = comm.recv(source = rank + half, tag = 2, status = info)
                         sum += partial_sum
                         print("trabalhador %d recebeu de trabalhador %d" % (rank, info.Get_source()))
+
+butterfly_method(0, 100000, 1000000)
+trapezoidal_rule(0, 100000, 1000000)
