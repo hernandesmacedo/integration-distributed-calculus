@@ -73,7 +73,7 @@ def butterfly_method(x0: float, xn: float, n: int):
                 start = portion * rank + h
                 end = portion * (rank + 1)
                 if rank == size - 1:
-                    end = n
+                    end = xn
 
                 sum = summation(start, end, h)
                 
@@ -104,7 +104,7 @@ def butterfly_method(x0: float, xn: float, n: int):
                 start = portion * rank + h
                 end = portion * (rank + 1)
                 if rank == size - 1:
-                    end = n
+                    end = xn
 
                 sum = summation(start, end, h)
                 
