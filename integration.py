@@ -59,22 +59,23 @@ def collective_communication(x0: float, xn: float, n: int):
             comm = MPI.COMM_WORLD
             size = comm.Get_size()
             rank = comm.Get_rank()
+            
+            h = 0
 
             if rank == 0:
                 start_time = datetime.datetime.now()
                 
                 h = (xn - x0) / n
-                data = [n, h]
                 
-                data = comm.bcast(data, root = 0)
+                h = comm.bcast(h, root = 0)
                     
                 portion = int(n / size)
-                start = portion * rank + h
-                end = portion * (rank + 1)
+                start = portion * rank + 1
+                end = portion * (rank + 1) + 1
                 if rank == size - 1:
-                    end = xn
+                    end = n
 
-                sum = summation(start, end, h)
+                sum = summation(start, end, x0, h)
                 
                 sum = comm.reduce(sum, op = MPI.SUM, root = 0)
                 
@@ -87,17 +88,15 @@ def collective_communication(x0: float, xn: float, n: int):
                 print("Tempo de execucao em segundos de relogio:", execution_time)
                 
             else:
-                data = comm.bcast(data, root = 0)
-                n = data[0]
-                h = data[1]
+                h = comm.bcast(h, root = 0)
                 
                 portion = int(n / size)
-                start = portion * rank + h
-                end = portion * (rank + 1)
+                start = portion * rank + 1
+                end = portion * (rank + 1) + 1
                 if rank == size - 1:
-                    end = xn
+                    end = n
 
-                sum = summation(start, end, h)
+                sum = summation(start, end, x0, h)
                 
                 sum = comm.reduce(sum, op = MPI.SUM, root = 0)
 
