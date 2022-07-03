@@ -12,7 +12,7 @@ def f(x: float):
     """
     return 5 * pow(x, 3) + 3 * pow (x, 2) + 4 * x + 20
 
-def summation(start: float, end: float, h: float):
+def summation(start: float, end: float, x0: float, h: float):
     """Sums and return sum value
 
     Args:
@@ -24,10 +24,10 @@ def summation(start: float, end: float, h: float):
         float: sum value
     """
     sum = 0
-    x = start
-    while x <= end:
+    x = round(x0 + h * start, 6)
+    for i in range(start, end):
         sum += f(x)
-        x += h
+        x = round(x + h, 6)
     return sum
 
 def trapezoidal_rule(x0: float, xn: float, n: int):
@@ -45,7 +45,7 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
             print("Intervalo inválido")
         else:
             h = (xn - x0) / n
-            sum = summation(x0 + h, xn, h)
+            sum = summation(1, n, x0, h)
             r = h * (( f(x0) + f(xn) ) / 2 + sum )
             print("O resultado da integral da funcao f eh", r)
 
@@ -67,15 +67,15 @@ def butterfly_method(x0: float, xn: float, n: int):
                 h = (xn - x0) / n
                 
                 for i in range(1, size):
-                    comm.send([n, h], dest = i, tag = 1)
+                    comm.send(h, dest = i, tag = 1)
                     
                 portion = int(n / size)
-                start = portion * rank + h
-                end = portion * (rank + 1)
+                start = portion * rank + 1
+                end = portion * (rank + 1) + 1
                 if rank == size - 1:
-                    end = xn
+                    end = n
 
-                sum = summation(start, end, h)
+                sum = summation(start, end, x0, h)
                 
                 half = size
                 
@@ -95,18 +95,16 @@ def butterfly_method(x0: float, xn: float, n: int):
                 print("Tempo de execucao em segundos de relogio:", execution_time)
                 
             else:
-                data = comm.recv(source = 0, tag = 1)
-                n = data[0]
-                h = data[1]
+                h = comm.recv(source = 0, tag = 1)
                 print ("trabalhador de rank %d: n %d, h %f" % (rank, n, h))
                 
                 portion = int(n / size)
-                start = portion * rank + h
-                end = portion * (rank + 1)
+                start = portion * rank + 1
+                end = portion * (rank + 1) + 1
                 if rank == size - 1:
-                    end = xn
+                    end = n
 
-                sum = summation(start, end, h)
+                sum = summation(start, end, x0, h)
                 
                 half = size
                 
