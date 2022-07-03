@@ -49,6 +49,58 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
             r = h * (( f(x0) + f(xn) ) / 2 + sum )
             print("O resultado da integral da funcao f eh", r)
 
+def collective_communication(x0: float, xn: float, n: int):
+    if n == 0:
+        print("Divisão por zero")
+    else:
+        if n < 0:
+            print("Intervalo inválido")
+        else:
+            comm = MPI.COMM_WORLD
+            size = comm.Get_size()
+            rank = comm.Get_rank()
+
+            if rank == 0:
+                start_time = datetime.datetime.now()
+                
+                h = (xn - x0) / n
+                data = [n, h]
+                
+                data = comm.bcast(data, root = 0)
+                    
+                portion = int(n / size)
+                start = portion * rank + h
+                end = portion * (rank + 1)
+                if rank == size - 1:
+                    end = xn
+
+                sum = summation(start, end, h)
+                
+                sum = comm.reduce(sum, op = MPI.SUM, root = 0)
+                
+                r = h * (( f(x0) + f(xn) ) / 2 + sum )
+            
+                end_time = datetime.datetime.now()
+                execution_time = (end_time - start_time).total_seconds() 
+
+                print("Resultado final:", r)
+                print("Tempo de execucao em segundos de relogio:", execution_time)
+                
+            else:
+                data = comm.bcast(data, root = 0)
+                n = data[0]
+                h = data[1]
+                
+                portion = int(n / size)
+                start = portion * rank + h
+                end = portion * (rank + 1)
+                if rank == size - 1:
+                    end = xn
+
+                sum = summation(start, end, h)
+                
+                sum = comm.reduce(sum, op = MPI.SUM, root = 0)
+
 def butterfly_method(x0: float, xn: float, n: int):
     
     if n == 0:
