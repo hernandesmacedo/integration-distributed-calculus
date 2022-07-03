@@ -168,3 +168,7 @@ def butterfly_method(x0: float, xn: float, n: int):
                         partial_sum = comm.recv(source = rank + half, tag = 2, status = info)
                         sum += partial_sum
                         print("trabalhador %d recebeu de trabalhador %d" % (rank, info.Get_source()))
+
+trapezoidal_rule(0, 100000, 1000000)
+butterfly_method(0, 100000, 1000000)
+collective_communication(0, 100000, 1000000)
