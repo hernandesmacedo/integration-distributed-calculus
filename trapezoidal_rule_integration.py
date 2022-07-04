@@ -25,9 +25,12 @@ def summation(start: int, end: int, x0: float, h: float):
     """
     sum = 0
     x = round(x0 + h * start, 6)
+    print("SUMMATION | start: %d, end: %d, x0: %f, h: %f\n" % (start, end, x0, h))
+    print("SUMMATION | initial x: %f\n" % (x))
     for i in range(start, end):
         sum += f(x)
         x = round(x + h, 6)
+    print("SUMMATION | final x: %f\n" % (x))
     return sum
 
 def trapezoidal_rule(x0: float, xn: float, n: int):
@@ -44,6 +47,7 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
         if n < 0:
             print("Intervalo invalido")
         else:
+            print("INICIANDO | x0: %f, xn: %f, n: %f\n" % (x0, xn, n))
             start_time = datetime.datetime.now()
             
             h = (xn - x0) / n
@@ -53,7 +57,7 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
             end_time = datetime.datetime.now()
             execution_time = (end_time - start_time).total_seconds() 
             
-            print("O resultado da integral da funcao f eh", r)
+            print("Resultado final: %f" % (r))
             print("Tempo de execucao em segundos:", execution_time)
 
 trapezoidal_rule(0, 100000, 1000000)
