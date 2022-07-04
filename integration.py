@@ -45,10 +45,17 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
         if n < 0:
             print("Intervalo inválido")
         else:
+            start_time = datetime.datetime.now()
+            
             h = (xn - x0) / n
             sum = summation(1, n, x0, h)
             r = h * (( f(x0) + f(xn) ) / 2 + sum )
+            
+            end_time = datetime.datetime.now()
+            execution_time = (end_time - start_time).total_seconds() 
+            
             print("O resultado da integral da funcao f eh", r)
+            print("Tempo de execucao em segundos de relogio:", execution_time)
 
 def collective_communication(x0: float, xn: float, n: int):
     """Trapezoidal rule for integration calculus using
