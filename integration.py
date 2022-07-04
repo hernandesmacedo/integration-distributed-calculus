@@ -2,22 +2,23 @@ from mpi4py import MPI
 import datetime
 
 def f(x: float):
-    """Defines the function you want to calculate the integration.
+    """Defines the function you want to integrate.
 
     Args:
-        x (float): value of variable of integration
+        x (float): value of integration variable
 
     Returns:
         float: The result of 5*x^3 + 3*x^2 + 4*x + 20
     """
-    return 5 * pow(x, 3) + 3 * pow (x, 2) + 4 * x + 20
+    return 5 * x**3 + 3 * x**2 + 4 * x + 20
 
-def summation(start: float, end: float, x0: float, h: float):
-    """Sums and return sum value
+def summation(start: int, end: int, x0: float, h: float):
+    """Sums results of a function
 
     Args:
-        start (float): x start value
-        end (float): x end value
+        start (int): loop start value
+        end (int): loop end value
+        x0 (float): x start value
         h (float): height value
 
     Returns:
