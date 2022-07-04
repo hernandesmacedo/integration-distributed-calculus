@@ -50,6 +50,14 @@ def trapezoidal_rule(x0: float, xn: float, n: int):
             print("O resultado da integral da funcao f eh", r)
 
 def collective_communication(x0: float, xn: float, n: int):
+    """Trapezoidal rule for integration calculus using
+    broadcast and reduce as collective communication.
+
+    Args:
+        x0 (float): lower bound of integration
+        xn (float): upper bound of integration
+        n (int): discretization value
+    """
     if n == 0:
         print("Divisão por zero")
     else:
@@ -101,7 +109,13 @@ def collective_communication(x0: float, xn: float, n: int):
                 sum = comm.reduce(sum, op = MPI.SUM, root = 0)
 
 def butterfly_method(x0: float, xn: float, n: int):
+    """Trapezoidal rule for integration calculus using butterfly method.
     
+    Args:
+        x0 (float): lower bound of integration
+        xn (float): upper bound of integration
+        n (int): discretization value
+    """
     if n == 0:
         print("Divisão por zero")
     else:
