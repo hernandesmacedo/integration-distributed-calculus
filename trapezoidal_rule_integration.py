@@ -24,7 +24,7 @@ def summation(start: int, end: int, x0: float, h: float):
         float: sum value
     """
     sum = 0
-    x = round(x0 + h * start, 6)
+    x = round(x0 + h, 6)
     print("SUMMATION | start: %d, end: %d, x0: %f, h: %f\n" % (start, end, x0, h))
     print("SUMMATION | initial x: %f\n" % (x))
     for i in range(start, end):
